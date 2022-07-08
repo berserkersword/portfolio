@@ -1,0 +1,43 @@
+.footer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 1rem;
+    background-color: #222;
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        flex-direction: column;
+
+        .icons {
+            display: flex;
+            justify-content: space-around;
+            width: 50%;
+
+            a {
+                text-decoration: none;
+
+                &>* {
+                    fill: #fff;
+                    transform: scale(2);
+                    transition: fill .4s ease;
+                }
+
+                &:hover svg {
+                    fill: cyan;
+                }
+            }
+        }
+
+        h4 {
+            margin-top: 2rem;
+            color: #fff;
+            font-size: 1rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+    }
+}

@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Moonrocks&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Fascinate&family=Poppins:ital,wght@0,200;0,400;0,500;1,200;1,500&display=swap');
+
+:root {
+  --text-color: #222;
+  --poppins: 'Poppins', sans-serif;
+  --rubic: 'Rubik Moonrocks', cursive;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  max-width: 100vw;
+}
