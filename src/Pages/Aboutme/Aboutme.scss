@@ -1,0 +1,22 @@
+.about-me {
+    width: 100%;
+    min-height: 100vh;
+    font-family: var(--poppins);
+    background-color: #e1e1ff;
+
+    .element {
+        background-color: #fff;
+
+        .h3 {
+            font-size: 1.5rem;
+            color: #1a1a1a;
+            font-family: var(--rubic);
+        }
+
+        p {
+            font-size: 1rem;
+            color: #222;
+            font-family: var(--poppins);
+        }
+    }
+}
