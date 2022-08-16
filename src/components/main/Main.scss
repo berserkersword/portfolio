@@ -22,7 +22,9 @@
         }
     }
 
-    @media(min-width:1200px) {
+    
+}
+@media(min-width:1200px) {
         .main {
             display: flex;
             text-align: center;
@@ -43,8 +45,6 @@
             }
         }
     }
-}
-
 .main {
     flex-direction: column;
 

@@ -1,7 +1,6 @@
-@media(min-width:400px) {
+
+
     .navbar {
-        position: sticky;
-        display: flex;
         top: 0;
         z-index: 2;
         max-width: 100%;
@@ -57,7 +56,7 @@
             cursor: pointer;
         }
     }
-}
+
 
 @media(min-width:1200px) {
     .navbar {
@@ -74,7 +73,11 @@
         }
     }
 }
+.navbar{
+    position: sticky;
+    display: flex;
 
+}
 .opened-hamburger {
     display: flex !important;
     align-items: center;

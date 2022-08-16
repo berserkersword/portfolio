@@ -1,6 +1,6 @@
 import './Projects.scss';
 import { motion } from 'framer-motion'
-const faceDetectImg = 'https://i0.wp.com/rankone.io/wp-content/uploads/2018/11/howfrworks.png?fit=1800%2C901&ssl=1'
+const faceDetectImg = 'https://previews.123rf.com/images/bankoo/bankoo1512/bankoo151200022/50201524-currency-exchange-rate-on-digital-led-display-board.jpg'
 const Projects = () => {
   return (
     <motion.div
@@ -16,28 +16,28 @@ const Projects = () => {
             <img src={faceDetectImg} alt="faceDetect" />
           </div>
           <div className="card-info">
-            <h2>Face Detecter</h2>
-            <a className='btn' href="https://face-detector-nine.vercel.app/" target='__blank'>Go to Side</a>
+            <h2>Currency</h2>
+            <a className='btn' href="https://currency-mauve.vercel.app/" target='__blank'>Go to Side</a>
           </div>
         </div>
 
         <div className="card">
           <div className="card-img">
-            <img src='https://i.ytimg.com/vi/St0_NAdazuQ/maxresdefault.jpg' alt="mini-app" />
+            <img src='https://aeroadmin.com/articles/en/wp-content/uploads/2020/11/search-engine-logo.png' alt="mini-app" />
           </div>
           <div className="card-info">
-            <h2>Mini App</h2>
-            <a className='btn' href='https://mini-platform.vercel.app/' target='__blank'>Go to Side</a>
+            <h2>Search Engine</h2>
+            <a className='btn' href='https://search-engine-berserkersword.vercel.app/' target='__blank'>Go to Side</a>
           </div>
         </div>
 
         <div className="card">
           <div className="card-img">
-            <img src='https://www.online-auksion.uz/uploads/lots/lot_336//images//TYrvgidbOyTVYDTZPWTbgBLRoXUAUdee2ORscpOX.jpg' alt="Test app" />
+            <img src='https://ui4free.com/storage/public/images/weather-icons-flat-outline-figma-icon-free_1632580967_thumb.jpg' alt="Test app" />
           </div>
           <div className="card-info">
-            <h2>Test app</h2>
-            <a className='btn' href='https://quize-appp.vercel.app/' target='__blank'>Go to Side</a>
+            <h2>Weather App</h2>
+            <a className='btn' href='https://berserker-weather.vercel.app/' target='__blank'>Go to Side</a>
           </div>
         </div>
       </div>
