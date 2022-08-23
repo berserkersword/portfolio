@@ -22,29 +22,31 @@
         }
     }
 
-    
+
 }
-@media(min-width:1200px) {
-        .main {
-            display: flex;
-            text-align: center;
-            align-items: center;
-            border-radius: 1rem;
-            background-color: #222;
-            min-height: 100vh;
 
-            h2 {
-                font-size: 3rem;
-                color: #fff;
-            }
+@media(max-width:1400px) {
+    .main {
+        display: flex;
+        text-align: center;
+        align-items: center;
+        border-radius: 1rem;
+        background-color: #222;
+        min-height: 100vh;
 
-            h5 {
-                color: #eee;
-                font-size: 1.5rem;
-                margin-top: 1rem;
-            }
+        h2 {
+            font-size: 3rem;
+            color: #fff;
+        }
+
+        h5 {
+            color: #eee;
+            font-size: 1.5rem;
+            margin-top: 1rem;
         }
     }
+}
+
 .main {
     flex-direction: column;
 
