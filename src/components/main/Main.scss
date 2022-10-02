@@ -33,6 +33,7 @@
         border-radius: 1rem;
         background-color: #222;
         min-height: 100vh;
+        justify-content: center;
 
         h2 {
             font-size: 3rem;
@@ -49,6 +50,7 @@
 
 .main {
     flex-direction: column;
+    font-family: var(--poppins);
 
     h5 {
         color: cyan;
