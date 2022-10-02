@@ -10,6 +10,7 @@
     ul {
         flex: 6;
         display: none;
+        flex-direction: column;
         align-items: center;
         justify-content: space-evenly;
         list-style: none;
@@ -69,6 +70,7 @@
 
         ul {
             display: flex;
+            flex-direction: row;
         }
 
         .hamburger {
