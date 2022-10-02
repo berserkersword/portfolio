@@ -21,8 +21,8 @@ const Main = () => {
       >I`m Full Stack Developer with a passion for learning and creating </motion.h5>
       <div className="icons">
         <a href="lamjarred063@gmail.com"><MdEmail /></a>
-        <a href="https://instagram.com/uchixa__itachi_"><AiFillInstagram /></a>
-        <a href="https://t.me/senior_shadow"><BsTelegram /></a>
+        <a href="https://instagram.com/mr_gryu"><AiFillInstagram /></a>
+        <a href="https://t.me/your_sempaiy"><BsTelegram /></a>
       </div>
     </div>
   )
