@@ -12,11 +12,10 @@
     background-image: linear-gradient(var(--card-gradient),
             white max(9.5rem, 27vh));
     overflow: hidden;
-    transition: background-image 0.4s ease-in-out;
+    transition: all 0.4s ease-in-out;
 
     h3 {
         font-family: 'Poppins', sans-serif;
-        margin-top: 1rem;
         font-size: 1.25rem;
         color: rgb(20, 20, 20);
     }
@@ -58,6 +57,7 @@
     &:hover,
     &:focus-within {
         --card-gradient: #5e9ad9 max(8.5rem, 20vh);
+        transform: translate(-2px, -2px);
     }
 }
 
