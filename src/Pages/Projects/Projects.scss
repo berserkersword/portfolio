@@ -10,20 +10,20 @@
     }
 }
 
-@media(max-width:1600) {
-    .wrapper {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-    }
-}
-
-@media (max-width:800px) {
+@media (min-width:800px) {
     .wrapper {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 }
 
-@media (max-width:900px) {
+@media (min-width:900px) {
     .wrapper {
         grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media(min-width:1100) {
+    .wrapper {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
     }
 }
