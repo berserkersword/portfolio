@@ -2,7 +2,15 @@
     width: 100%;
     min-height: 100vh;
     padding: 1rem;
+    background-color: #e1e1ff;
 
+    .wrapper {
+        list-style: none;
+        gap: 2rem;
+    }
+}
+
+@media(max-width:1600) {
     .wrapper {
         grid-template-columns: repeat(4, minmax(0, 1fr));
     }
