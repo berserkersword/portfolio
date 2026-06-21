@@ -1,0 +1,36 @@
+import { google } from "googleapis";
+
+export async function appendToSheet(data: Record<string, string>) {
+  const auth = new google.auth.GoogleAuth({
+    credentials: {
+      client_email: process.env.GOOGLE_CLIENT_EMAIL,
+      private_key: process.env.GOOGLE_PRIVATE_KEY?.replace(/\\n/g, "\n"),
+    },
+    scopes: ["https://www.googleapis.com/auth/spreadsheets"],
+  });
+
+  const sheets = google.sheets({ version: "v4", auth });
+
+  const row = [
+    new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" }),
+    data.name,
+    data.phone,
+    data.social,
+    data.date,
+    data.videoType,
+    data.duration,
+    data.platform,
+    data.style,
+    data.music,
+    data.location,
+    data.notes,
+    data.budget,
+  ];
+
+  await sheets.spreadsheets.values.append({
+    spreadsheetId: process.env.GOOGLE_SHEET_ID,
+    range: "Sheet1!A:M",
+    valueInputOption: "USER_ENTERED",
+    requestBody: { values: [row] },
+  });
+}

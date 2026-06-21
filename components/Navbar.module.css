@@ -1,0 +1,247 @@
+.nav {
+  position: relative;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  height: 72px;
+  background: rgba(17, 17, 16, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  flex-wrap: wrap;        /* ← menyu uchun */
+}
+
+/* ── Logo ── */
+.logo {
+  /* font-family: "Playfair Display", serif; */
+  font-family: "Source Code Pro", monospace;
+  font-size: 22px;
+  font-weight: 400;
+  color: #e8e6e1;
+  letter-spacing: -0.5px;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+.logo:hover {
+  opacity: 0.6;
+}
+
+/* ── Nav links ── */
+.navLinks {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.navLink {
+  font-family: "Fira code", monospace;
+  font-size: 11.5px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #9a9890;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.navLink::after {
+  content: "";
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: #ffffff;
+  transition: width 0.3s ease;
+}
+
+.navLink:hover {
+  color: #ffffff;
+}
+.navLink:hover::after {
+  width: 100%;
+}
+
+/* Active link */
+.active {
+  color: #e8e6e1 !important;
+}
+.active::after {
+  width: 100% !important;
+}
+
+/* Dropdown arrow */
+.hasDropdown {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.hasDropdown svg {
+  width: 8px;
+  height: 8px;
+  opacity: 0.5;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.navLink:hover .hasDropdown svg {
+  transform: rotate(180deg);
+  opacity: 1;
+}
+
+/* ── Right side ── */
+.right {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+.divider {
+  width: 60px;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  flex-shrink: 0;
+}
+
+/* Contact button */
+.btnContact {
+  font-family: "Jost", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e8e6e1;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  padding: 10px 22px;
+  position: relative;
+  overflow: hidden;
+  transition: color 0.4s ease;
+}
+.btnContact::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #e8e6e1;
+  transform: translateX(-101%);
+  transition: transform 0.4s cubic-bezier(0.76, 0, 0.24, 1);
+}
+.btnContact:hover {
+  color: #111110;
+}
+.btnContact:hover::before {
+  transform: translateX(0);
+}
+.btnContact span {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── Hamburger (mobile) ── */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.line {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: #e8e6e1;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.lineOpen1 {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: #e8e6e1;
+  transform: translateY(6px) rotate(45deg);
+  transition: transform 0.3s ease;
+}
+.lineOpen2 {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: #e8e6e1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.lineOpen3 {
+  display: block;
+  width: 24px;
+  height: 1px;
+  background: #e8e6e1;
+  transform: translateY(-6px) rotate(-45deg);
+  transition: transform 0.3s ease;
+}
+
+/* ── Mobile menu ── */
+.mobileMenu {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgb(17, 17, 16);
+  padding: 16px 0 32px;
+  gap: 0;
+}
+.mobileLink {
+  /* font-family: "Playfair Display", serif; */
+  font-size: 28px;
+  font-weight: 400;
+  color: #9a9890;
+  text-decoration: none;
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  transition: color 0.3s ease;
+  display: flex;
+  /* align-items: center; */
+  /* justify-content: space-between; */
+}
+.mobileLink:hover {
+  color: #e8e6e1;
+}
+
+.mobileBtnContact {
+  font-family: "Jost", sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #e8e6e1;
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  padding: 14px;
+  margin-top: 24px;
+  text-align: center;
+  transition: background 0.3s, color 0.3s;
+}
+.mobileBtnContact:hover {
+  background: #e8e6e1;
+  color: #111110;
+}
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .navLinks,
+  .right {
+    display: none;
+  }
+  .hamburger {
+    display: flex;
+  }
+  .mobileMenu {
+    display: relative;
+  }
+}

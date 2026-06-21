@@ -1,0 +1,139 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
+
+/* Animated gradient mesh background */
+body {
+  background-color: #0a0a0a;
+}
+
+.mesh-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Grain overlay */
+.mesh-background::after {
+  content: "";
+  position: fixed;
+  top: -100px;
+  left: -100px;
+  right: -100px;
+  bottom: -100px;
+  opacity: 0.5;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 128px;
+  animation: grain 12s linear infinite;
+  pointer-events: none;
+}
+
+@keyframes grain {
+  0%   { transform: translate(0px, 0px); }
+  25%  { transform: translate(-20px, 10px); }
+  50%  { transform: translate(10px, -15px); }
+  75%  { transform: translate(-15px, 20px); }
+  100% { transform: translate(0px, 0px); }
+}
+
+/* Animated gradient orbs */
+.mesh-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.25;
+  animation: orbFloat linear infinite;
+}
+
+.mesh-orb-1 {
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, #2d2b8a 0%, transparent 70%);
+  top: -100px;
+  left: -100px;
+  animation-duration: 20s;
+  opacity: 0.45;
+}
+
+.mesh-orb-2 {
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, #0f4d3a 0%, transparent 70%);
+  bottom: -100px;
+  right: -100px;
+  animation-duration: 25s;
+  animation-direction: reverse;
+  opacity: 0.4;
+}
+
+.mesh-orb-3 {
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, #6b1a1a 0%, transparent 70%);
+  top: 40%;
+  left: 50%;
+  animation-duration: 18s;
+  animation-delay: -5s;
+  opacity: 0.35;
+}
+
+@keyframes orbFloat {
+  0%   { transform: translate(0, 0) scale(1); }
+  25%  { transform: translate(40px, -60px) scale(1.05); }
+  50%  { transform: translate(-30px, 40px) scale(0.95); }
+  75%  { transform: translate(50px, 30px) scale(1.02); }
+  100% { transform: translate(0, 0) scale(1); }
+}
+
+/* Vignette */
+.mesh-vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 40%,
+    rgba(0, 0, 0, 0.7) 100%
+  );
+}
+
+
+/*  code font */
+.code {
+  font-family: "Source Code Pro", monospace;
+}
+.minicode{
+  font-family: "Fira Code", monospace;
+}
+
+
+/* HTML: <div class="loader"></div> */
+.loader {
+  height: 40px;
+  aspect-ratio: .866;
+  display: grid;
+  background: conic-gradient(from -121deg at right,#0000, #454545 1deg 60deg,#7b7b7b00 61deg);
+  animation: l12 2s infinite linear;
+  transform-origin: 33% 50%;
+}
+.loader:before,
+.loader:after {
+  content: "";
+  grid-area: 1/1;
+  background: conic-gradient(from -121deg at right,#0000, #525252 1deg 60deg,#0000 61deg);
+  transform-origin: inherit;
+  animation: inherit;
+}
+.loader:after {
+  background: conic-gradient(from -121deg at right,#0000, #cfcfcf 1deg 60deg,#0000 61deg);
+  animation-duration: 3s;
+}
+@keyframes l12{
+  100% {transform: rotate(1turn)}
+}
