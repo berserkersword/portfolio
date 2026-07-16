@@ -5,6 +5,7 @@ import "./globals.css";
 import {useEffect, useRef} from "react";
 import Footer from "@/components/footer";
 import { GlitchProvider } from "@/components/glitchProvider";
+import TestComp from "@/components/test";
 
 function MeshBackground() {
   return (
@@ -92,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <GrainCanvas />
         <GlitchProvider />
         <div className="relative z-10">
+          <TestComp />
           <Navbar/>
           {children}
         <Footer />
