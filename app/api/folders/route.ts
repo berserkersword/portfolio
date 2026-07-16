@@ -1,6 +1,8 @@
 import { imagekit } from "@/lib/imagekit";
 import { NextResponse } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 export interface ApiPhotoFolder {
   slug: string;
   name: string;

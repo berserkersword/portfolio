@@ -26,7 +26,7 @@ export default function PhotoPage() {
 
   if (loading) {
     return (
-      <div className="w-full  flex flex-col items-center justify-center gap-4 p-10">
+      <div className="w-full flex flex-col items-center justify-center gap-4 p-10">
         <LoaderIcon />
       </div>
     );
@@ -44,11 +44,11 @@ export default function PhotoPage() {
 
   return (
     <div className="w-full flex flex-col p-10">
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mt-4">
-        {folders.map((folder) => (
-          <FolderCard key={folder.slug} folder={folder} />
-        ))}
-      </div>
-    </div>
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    {folders.map((folder) => (
+      <FolderCard key={folder.slug} folder={folder} />
+    ))}
+  </div>
+</div>
   );
 }
