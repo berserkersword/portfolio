@@ -32,15 +32,16 @@ export async function GET() {
         const imageFiles = files.filter((f: any) =>
           f.fileType === "image" || /\.(jpe?g|png|webp|avif)$/i.test(f.name)
         );
-        const coverImage =
-                imageFiles.find((f: any) => f.name.toLowerCase().startsWith("cover-")) ??
-                imageFiles[0];
+        const coverImage = (
+  imageFiles.find((f: any) => f.name.toLowerCase().startsWith("cover-")) ??
+  imageFiles[0]
+) as any;
 
         return {
-          slug: folder.name,
-          name: folder.name,
-          coverUrl: coverImage?.url ?? "",
-          count: imageFiles.length,
+  slug: folder.name,
+  name: folder.name,
+  coverUrl: coverImage?.url ?? "",
+  count: imageFiles.length,
 };
       })
     );

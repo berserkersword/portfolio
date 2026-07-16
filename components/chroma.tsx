@@ -1,4 +1,4 @@
-import styles from "./Chroma.module.css";
+import styles from "./chroma.module.css";
 
 interface Props {
   children: string;
