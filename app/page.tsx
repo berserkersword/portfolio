@@ -4,8 +4,8 @@ export const metadata = {
   title: "Islom Ibragimov",
   description: "Islom Ibragimov portfolio",
   icons: {
-    icon: '/public/favicon.ico',
-    apple: '/public/favicon-apple.png',
+    icon: 'favicon.ico',
+    apple: 'favicon-apple.png',
   }
 };
 

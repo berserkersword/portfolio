@@ -1,5 +1,6 @@
 "use client";
 import Navbar from "@/components/Navbar";
+import { Analytics } from "@vercel/analytics/next";
 // import type { Metadata } from "next";
 import "./globals.css";
 import {useEffect, useRef} from "react";
@@ -96,6 +97,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <TestComp />
           <Navbar/>
           {children}
+          <Analytics />
         <Footer />
         </div>
       </body>
