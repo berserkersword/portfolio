@@ -43,8 +43,8 @@ export default function PhotoPage() {
   }
 
   return (
-    <div className="w-full flex flex-col p-10">
-  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+    <div className="w-full flex flex-col p-2 md:p-10">
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-1 md:mt-4">
     {folders.map((folder) => (
       <FolderCard key={folder.slug} folder={folder} />
     ))}

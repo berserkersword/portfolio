@@ -14,7 +14,7 @@ export async function GET() {
   try {
     // 1. Root papkalarni olish (faqat type: folder)
     const folderItems = await imagekit.listFiles({
-      path: "/",
+      path: "/photos",
       type: "folder",
       limit: 100,
     });
@@ -23,7 +23,7 @@ export async function GET() {
     const folders: ApiPhotoFolder[] = await Promise.all(
       folderItems.map(async (folder: any) => {
         const files = await imagekit.listFiles({
-          path: folder.folderPath,
+          path: folder.folderPath,  // bu avtomatik to'g'ri ishlaydi, chunki folderPath allaqachon to'liq yo'l
           type: "file",
           limit: 1000,
           sort: "ASC_CREATED",

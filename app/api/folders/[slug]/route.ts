@@ -11,7 +11,7 @@ export async function GET(
 
   try {
     const files = await imagekit.listFiles({
-      path: `/${slug}`,
+      path: `/photos/${slug}`,
       type: "file",
       limit: 1000,
       sort: "ASC_CREATED",

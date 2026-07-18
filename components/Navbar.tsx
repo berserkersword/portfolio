@@ -65,7 +65,7 @@ export default function Navbar() {
       {/* Right side */}
       <div className={styles.right}>
         <div className={styles.divider} />
-        <TransitionLink href="/contact" className={styles.btnContact}>
+        <TransitionLink href="tel:+998938005527" className={styles.btnContact}>
           <span>Contact</span>
         </TransitionLink>
       </div>
@@ -83,46 +83,44 @@ export default function Navbar() {
 
       {/* Mobile menu */}
         <AnimatePresence>
-  {menuOpen && (
-    <motion.div
-      className={styles.mobileMenu}
-      initial={{ opacity: 0, height: 0 }}
-      animate={{ opacity: 1, height: "auto" }}
-      exit={{ opacity: 0, height: 0 }}
-      transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
-      style={{ overflow: "hidden" }}
-    >
-      {navLinks.map((link, i) => (
-        <motion.div
-          className="justify-center items-center"
-          key={link.href}
-          initial={{ opacity: 0, x: -12 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ delay: i * 0.06 }}
-        >
-          <TransitionLink
-            href={link.href}
-            className={styles.mobileLink+" code"}
-            style={pathname === link.href ? { color: "#e8e6e1" } : {}}
-            onClick={() => setMenuOpen(false)}
+        {menuOpen && (
+          <motion.div
+            className={styles.mobileMenu}
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3, ease: [0.76, 0, 0.24, 1] }}
+            style={{ overflow: "hidden" }}
           >
-            <Chroma>
-              {link.label}
-            </Chroma>
-            {/* <span style={{ fontSize: "16px", color: "#555552" }}>→</span> */}
-          </TransitionLink>
-        </motion.div>
-      ))}
+            {navLinks.map((link, i) => (
+              <motion.div
+                className="justify-center items-center"
+                key={link.href}
+                initial={{ opacity: 0, x: -12 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.06 }}
+              >
+                <TransitionLink
+                  href={link.href}
+                  className={styles.mobileLink+" code"}
+                  style={pathname === link.href ? { color: "#e8e6e1" } : {}}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  <Chroma>
+                    {link.label}
+                  </Chroma>
+                  {/* <span style={{ fontSize: "16px", color: "#555552" }}>→</span> */}
+                </TransitionLink>
+              </motion.div>
+            ))}
 
-      <TransitionLink
-        href="/contact"
-        className={styles.mobileBtnContact}
-        onClick={() => setMenuOpen(false)}
-      >
-        Contact
-      </TransitionLink>
-    </motion.div>
-  )}
+            <a
+              href="tel:+998938005527"
+            >
+              Contact
+            </a>
+          </motion.div>
+        )}
         </AnimatePresence>
     </nav>
   );
