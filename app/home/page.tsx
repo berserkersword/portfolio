@@ -11,6 +11,7 @@ import {AiOutlineInstagram} from "react-icons/ai"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import {BiLogoTelegram} from "react-icons/bi"
 import VideoCompareSlider from "@/components/VideoCompareSlider"
+import LoaderIcon from "@/components/LoaderIcon"
 
 export default function Home(){
     const marqueeIcons = [
@@ -102,7 +103,7 @@ export default function Home(){
             {/* slider content */}
             <div className="max-h-[100vh] md:my-20 my-40">
                 {/* <Slider images={images} /> */}
-                <VideoCompareSlider beforeSrc="before.mp4" afterSrc="after.mp4" />
+                <VideoCompareSlider beforeSrc="before.mp4" afterSrc="after.mp4" loader={<LoaderIcon />} />
             </div>
 
 

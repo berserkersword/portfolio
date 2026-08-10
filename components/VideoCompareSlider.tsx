@@ -1,12 +1,18 @@
 "use client";
 
-import { useRef, useState, useCallback, useEffect } from "react";
+import { useRef, useState, useCallback, useEffect, type ReactNode } from "react";
 
 interface VideoCompareSliderProps {
   beforeSrc: string;
   afterSrc: string;
   /** Initial slider position in percent (0-100) */
   initialPosition?: number;
+  /**
+   * Optional custom loader to show while both videos are buffering.
+   * Pass your own component, e.g. <LoaderIcon />.
+   * If omitted, a small built-in spinner is used.
+   */
+  loader?: ReactNode;
 }
 
 /**
@@ -16,18 +22,25 @@ interface VideoCompareSliderProps {
  * <VideoCompareSlider
  *   beforeSrc="/videos/before.mp4"
  *   afterSrc="/videos/after.mp4"
+ *   loader={<LoaderIcon />}
  * />
  */
 export default function VideoCompareSlider({
   beforeSrc,
   afterSrc,
   initialPosition = 50,
+  loader,
 }: VideoCompareSliderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const beforeVideoRef = useRef<HTMLVideoElement>(null);
   const afterVideoRef = useRef<HTMLVideoElement>(null);
   const [position, setPosition] = useState<number>(initialPosition);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+
+  // Track when each video has buffered enough to play through without stalling
+  const [beforeReady, setBeforeReady] = useState(false);
+  const [afterReady, setAfterReady] = useState(false);
+  const isReady = beforeReady && afterReady;
 
   // Keep both videos in sync (play/pause/time)
   useEffect(() => {
@@ -100,17 +113,16 @@ export default function VideoCompareSlider({
     };
   }, [isDragging, handlePointerMove]);
 
-  const togglePlay = () => {
-    const before = beforeVideoRef.current;
-    if (!before) return;
-    if (before.paused) before.play();
-    else before.pause();
-  };
+  // Once BOTH videos have buffered enough, start them together.
+  // This is what prevents one from starting before the other.
+  useEffect(() => {
+    if (!isReady) return;
+    beforeVideoRef.current?.play().catch(() => {});
+  }, [isReady]);
 
   return (
     <div
       ref={containerRef}
-      // onClick={togglePlay}
       style={{
         position: "relative",
         width: "100%",
@@ -118,24 +130,26 @@ export default function VideoCompareSlider({
         overflow: "hidden",
         borderRadius: 12,
         userSelect: "none",
-        cursor: "pointer",
         background: "#000",
       }}
     >
       {/* AFTER video — full width, sits underneath */}
       <video
         ref={afterVideoRef}
-        autoPlay
         src={afterSrc}
         muted
         loop
         playsInline
+        preload="auto"
+        onCanPlayThrough={() => setAfterReady(true)}
         style={{
           position: "absolute",
           inset: 0,
           width: "100%",
           height: "100%",
           objectFit: "cover",
+          opacity: isReady ? 1 : 0,
+          transition: "opacity 0.3s ease",
         }}
       />
 
@@ -152,17 +166,55 @@ export default function VideoCompareSlider({
           ref={beforeVideoRef}
           src={beforeSrc}
           muted
-          autoPlay
           loop
           playsInline
+          preload="auto"
+          onCanPlayThrough={() => setBeforeReady(true)}
           style={{
             width: `${(100 / position) * 100}%`,
             height: "100%",
             objectFit: "cover",
             maxWidth: "none",
+            opacity: isReady ? 1 : 0,
+            transition: "opacity 0.3s ease",
           }}
         />
       </div>
+
+      {/* Loader — shown until both videos can play through without buffering.
+          Pass your own via the `loader` prop; falls back to a built-in spinner. */}
+      {!isReady && (
+        <div
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            background: "#000",
+          }}
+        >
+          {loader ?? (
+            <>
+              <div
+                style={{
+                  width: 40,
+                  height: 40,
+                  borderRadius: "50%",
+                  border: "3px solid rgba(255,255,255,0.25)",
+                  borderTopColor: "#fff",
+                  animation: "vcs-spin 0.8s linear infinite",
+                }}
+              />
+              <style>{`
+                @keyframes vcs-spin {
+                  to { transform: rotate(360deg); }
+                }
+              `}</style>
+            </>
+          )}
+        </div>
+      )}
 
       {/* Divider handle */}
       <div
