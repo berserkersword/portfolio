@@ -1,245 +1,136 @@
-"use client";
+"use client"
+import {motion} from "framer-motion"
 
-import { useRef, useState, useCallback, useEffect } from "react";
+// components
+import Slider from "@/components/slider"
+import { Chroma } from "@/components/chroma"
+import IconsMarquee from "@/components/IconMarquee"
 
-interface VideoCompareSliderProps {
-  beforeSrc: string;
-  afterSrc: string;
-  /** Initial slider position in percent (0-100) */
-  initialPosition?: number;
-}
+// icons
+import {AiOutlineInstagram} from "react-icons/ai"
+import { MapPinIcon } from "@heroicons/react/24/outline"
+import {BiLogoTelegram} from "react-icons/bi"
+import VideoCompareSlider from "@/components/VideoCompareSlider"
 
-/**
- * Before/After video comparison slider.
- *
- * Usage:
- * <VideoCompareSlider
- *   beforeSrc="/videos/before.mp4"
- *   afterSrc="/videos/after.mp4"
- * />
- */
-export default function VideoCompareSlider({
-  beforeSrc,
-  afterSrc,
-  initialPosition = 50,
-}: VideoCompareSliderProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const beforeVideoRef = useRef<HTMLVideoElement>(null);
-  const afterVideoRef = useRef<HTMLVideoElement>(null);
-  const [position, setPosition] = useState<number>(initialPosition);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [beforeReady, setBeforeReady] = useState(false);
-  const [afterReady, setAfterReady] = useState(false);
-  const isReady = beforeReady && afterReady;
+export default function Home(){
+    const marqueeIcons = [
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/adobe-audition.png",
+            alt: "Adobe Audition",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/adobe-after-effects.png",
+            alt: "Adobe After Effects",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/adobe-premiere-pro.png",
+            alt: "Adobe Premiere Pro",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/adobe-lightroom.png",
+            alt: "Adobe Lightroom",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/adobe-photoshop.png",
+            alt: "Adobe Photoshop",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/davinci-resolve.png",
+            alt: "DaVinci Resolve",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/figma.png",
+            alt: "Figma",
+        },
+        {
+            src: "https://img.icons8.com/ios-filled/128/000000/blender-3d.png",
+            alt: "Blender",
+        },
+];
+    const images =[
+        {id: 1, src: '/images/1.png'},
+        {id: 2, src: '/images/2.png'},
+        {id: 3, src: '/images/3.jpg'},
+    ]
 
-  // Keep both videos in sync (play/pause/time)
-  useEffect(() => {
-    const before = beforeVideoRef.current;
-    const after = afterVideoRef.current;
-    if (!before || !after) return;
+    return (
+        <div className="w-full min-h-[100vh] lg:p-20 md:p-5">
 
-    const sync = (source: HTMLVideoElement, target: HTMLVideoElement) => () => {
-      if (Math.abs(target.currentTime - source.currentTime) > 0.15) {
-        target.currentTime = source.currentTime;
-      }
-    };
-    const play = (target: HTMLVideoElement) => () => {
-      target.play().catch(() => {});
-    };
-    const pause = (target: HTMLVideoElement) => () => target.pause();
+            {/* Main page content */}
+            <div>
+                <div className="flex flex-col justify-center gap-6 mb-20">
+                    <motion.h1
+                        initial={{ opacity: 0.3, filter: "blur(10px)",}}
+                        animate={{ opacity: 1, filter: "blur(0px)",}}
+                        transition={{ delay:0.5,duration: 1, ease: "easeInOut" }}
+                        className="text-4xl font-bold code text-neutral-100">
+                            <Chroma>
+                                Every frame is a decision.
+                            </Chroma>
+                    </motion.h1>
+                    <motion.h1
+                        initial={{ opacity: 0.3, filter: "blur(10px)",}}
+                        animate={{ opacity: 1, filter: "blur(0px)",}}
+                        transition={{ delay:0.7,duration: 1, ease: "easeInOut" }}
+                        className="text-4xl font-bold code text-neutral-100"> 
+                        <Chroma>
+                        Every cut is a belief.
+                        </Chroma>
+                    </motion.h1>
+                </div>
+                <div className="bottom-0 flex gap-4">
+                    <motion.div
+                        initial={{ opacity: 0.3, filter: "blur(10px)",}}
+                        animate={{ opacity: 1, filter: "blur(0px)",}}
+                        transition={{ delay:0.9,duration: 1, ease: "easeInOut" }}
+                    >
+                        <MapPinIcon className="w-6 h-6 text-neutral-100"/>
+                    </motion.div>
+                    <motion.span 
+                        initial={{ opacity: 0.3, filter: "blur(10px)",}}
+                        animate={{ opacity: 1, filter: "blur(0px)",}}
+                        transition={{ delay:1,duration: 1, ease: "easeInOut" }}
+                        className="text-neutral-200 minicode"
+                    >
+                        <Chroma>
+                        Tashken, Uzbekistan
+                        </Chroma>
+                    </motion.span>
+                </div>
+            </div>
 
-    const onTimeUpdate = sync(before, after);
-    const onPlay = play(after);
-    const onPause = pause(after);
-    const onSeeked = sync(before, after);
+            {/* slider content */}
+            <div className="max-h-[100vh] md:my-20 my-40">
+                {/* <Slider images={images} /> */}
+                <VideoCompareSlider beforeSrc="before.mp4" afterSrc="after.mp4" />
+            </div>
 
-    before.addEventListener("timeupdate", onTimeUpdate);
-    before.addEventListener("play", onPlay);
-    before.addEventListener("pause", onPause);
-    before.addEventListener("seeked", onSeeked);
 
-    return () => {
-      before.removeEventListener("timeupdate", onTimeUpdate);
-      before.removeEventListener("play", onPlay);
-      before.removeEventListener("pause", onPause);
-      before.removeEventListener("seeked", onSeeked);
-    };
-  }, []);
+            {/* Marquee content */}
+            <div>
+                <IconsMarquee  icons={marqueeIcons} />
+            </div>
 
-  const updatePosition = useCallback((clientX: number) => {
-    const el = containerRef.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    let pct = ((clientX - rect.left) / rect.width) * 100;
-    pct = Math.min(100, Math.max(0, pct));
-    setPosition(pct);
-  }, []);
-
-  const handlePointerMove = useCallback(
-    (e: MouseEvent | TouchEvent) => {
-      if (!isDragging) return;
-      const clientX =
-        "touches" in e ? e.touches[0].clientX : (e as MouseEvent).clientX;
-      updatePosition(clientX);
-    },
-    [isDragging, updatePosition]
-  );
-
-  useEffect(() => {
-    if (!isDragging) return;
-
-    const onUp = () => setIsDragging(false);
-
-    window.addEventListener("mousemove", handlePointerMove);
-    window.addEventListener("touchmove", handlePointerMove);
-    window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchend", onUp);
-
-    return () => {
-      window.removeEventListener("mousemove", handlePointerMove);
-      window.removeEventListener("touchmove", handlePointerMove);
-      window.removeEventListener("mouseup", onUp);
-      window.removeEventListener("touchend", onUp);
-    };
-  }, [isDragging, handlePointerMove]);
-
-  // Once both videos have enough data buffered, start playback together
-  useEffect(() => {
-    if (!isReady) return;
-    beforeVideoRef.current?.play().catch(() => {});
-  }, [isReady]);
-
-  return (
-    <div
-      ref={containerRef}
-      style={{
-        position: "relative",
-        width: "100%",
-        aspectRatio: "16 / 9",
-        overflow: "hidden",
-        borderRadius: 12,
-        userSelect: "none",
-        background: "#000",
-      }}
-    >
-      {/* AFTER video — full width, sits underneath */}
-      <video
-        ref={afterVideoRef}
-        src={afterSrc}
-        muted
-        loop
-        playsInline
-        preload="auto"
-        onCanPlayThrough={() => setAfterReady(true)}
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: "100%",
-          height: "100%",
-          objectFit: "cover",
-          opacity: isReady ? 1 : 0,
-          transition: "opacity 0.3s ease",
-        }}
-      />
-
-      {/* BEFORE video — clipped to slider position, sits on top */}
-      <div
-        style={{
-          position: "absolute",
-          inset: 0,
-          width: `${position}%`,
-          overflow: "hidden",
-        }}
-      >
-        <video
-          ref={beforeVideoRef}
-          src={beforeSrc}
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onCanPlayThrough={() => setBeforeReady(true)}
-          style={{
-            width: `${(100 / position) * 100}%`,
-            height: "100%",
-            objectFit: "cover",
-            maxWidth: "none",
-            opacity: isReady ? 1 : 0,
-            transition: "opacity 0.3s ease",
-          }}
-        />
-      </div>
-
-      {/* Loader — shown until both videos can play through without buffering */}
-      {!isReady && (
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            background: "#000",
-          }}
-        >
-          <div
-            style={{
-              width: 40,
-              height: 40,
-              borderRadius: "50%",
-              border: "3px solid rgba(255,255,255,0.25)",
-              borderTopColor: "#fff",
-              animation: "vcs-spin 0.8s linear infinite",
-            }}
-          />
-          <style>{`
-            @keyframes vcs-spin {
-              to { transform: rotate(360deg); }
-            }
-          `}</style>
+            <div className="w-full align-middle flex justify-center mt-20">
+                <div className="flex justify-center align-middle gap-4 m-20">
+                    <a
+                        className="flex"
+                        href="https://www.instagram.com/islom.filmic/" target="_blank" rel="noopener noreferrer"
+                    >
+                        <AiOutlineInstagram className="w-6 h-6 text-neutral-100"/>
+                        <span className="code text-neutral-200 ml-2">Instagram</span>
+                    </a>
+                    <hr className="my-4 border-neutral-700 min-w-[100px]" />
+                    <a
+                        className="flex"
+                        href="https://t.me/who_islom" target="_blank" rel="noopener noreferrer"
+                    >
+                        <BiLogoTelegram className="w-6 h-6 text-neutral-100"/>
+                        <span className="code text-neutral-200 ml-2">Telegram</span>
+                    </a>
+                </div>
+            </div>
         </div>
-      )}
+    )
 
-      {/* Divider handle */}
-      <div
-        onMouseDown={(e) => {
-          e.stopPropagation();
-          setIsDragging(true);
-        }}
-        onTouchStart={(e) => {
-          e.stopPropagation();
-          setIsDragging(true);
-        }}
-        style={{
-          position: "absolute",
-          top: 0,
-          bottom: 0,
-          left: `${position}%`,
-          width: 2,
-          background: "#fff",
-          transform: "translateX(-1px)",
-          cursor: "ew-resize",
-        }}
-      >
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: 36,
-            height: 36,
-            borderRadius: "50%",
-            background: "#fff",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            boxShadow: "0 2px 8px rgba(0,0,0,0.3)",
-          }}
-        >
-          ↔
-        </div>
-      </div>
-    </div>
-  );
 }
