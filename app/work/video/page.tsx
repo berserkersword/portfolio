@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
-import "videojs-contrib-quality-levels";
 import LoaderIcon from "@/components/loaderIcon";
 import type { ApiVideo } from "@/app/api/videos/route";
 
@@ -153,71 +152,88 @@ function VideoLightbox({
 
     if (!containerRef.current) return;
 
-    // video.js elementini o'zimiz DOM'ga qo'shamiz - React ref orqali emas,
-    // shunda video.js va React bir-biriga xalaqit bermaydi
-    const videoElement = document.createElement("video-js");
-    videoElement.classList.add(
-      "vjs-default-skin",
-      "vjs-big-play-centered",
-      "vjs-custom-theme"
-    );
-    videoElement.style.width = "100%";
-    videoElement.style.height = "100%";
-    containerRef.current.appendChild(videoElement);
+    let disposed = false;
 
-    // video.url ichida ?updatedAt=... kabi query parametr bo'lishi mumkin,
-    // shuning uchun /ik-master.m3u8 ni query'dan OLDIN qo'shish kerak
-    const [baseUrl] = video.url.split("?");
-    const hlsSrc = `${baseUrl}/ik-master.m3u8?tr=sr-240_360_480_720_1080`;
+    const setup = async () => {
+      // videojs-contrib-quality-levels endi FAQAT brauzerda, effekt ichida,
+      // va faqat ro'yxatdan o'tmagan bo'lsa yuklanadi. Shu tufayli Next.js
+      // build vaqtidagi (SSG/prerender) "already exists" ogohlantirishi chiqmaydi,
+      // chunki bu kod hech qachon serverda ishlamaydi.
+      if (!(videojs as any).getPlugin("qualityLevels")) {
+        await import("videojs-contrib-quality-levels");
+      }
 
-    const player = videojs(
-      videoElement,
-      {
-        controls: true,
-        autoplay: true,
-        muted: true, // brauzer avtomatik ijro qilishi uchun shart
-        preload: "auto",
-        fill: true,
-        sources: [
-          {
-            src: hlsSrc,
-            type: "application/x-mpegURL",
-          },
-        ],
-      },
-      () => {
+      if (disposed || !containerRef.current) return;
+
+      // video.js elementini o'zimiz DOM'ga qo'shamiz - React ref orqali emas,
+      // shunda video.js va React bir-biriga xalaqit bermaydi
+      const videoElement = document.createElement("video-js");
+      videoElement.classList.add(
+        "vjs-default-skin",
+        "vjs-big-play-centered",
+        "vjs-custom-theme"
+      );
+      videoElement.style.width = "100%";
+      videoElement.style.height = "100%";
+      containerRef.current.appendChild(videoElement);
+
+      // video.url ichida ?updatedAt=... kabi query parametr bo'lishi mumkin,
+      // shuning uchun /ik-master.m3u8 ni query'dan OLDIN qo'shish kerak
+      const [baseUrl] = video.url.split("?");
+      const hlsSrc = `${baseUrl}/ik-master.m3u8?tr=sr-240_360_480_720_1080`;
+
+      const player = videojs(
+        videoElement,
+        {
+          controls: true,
+          autoplay: true,
+          muted: true, // brauzer avtomatik ijro qilishi uchun shart
+          preload: "auto",
+          fill: true,
+          sources: [
+            {
+              src: hlsSrc,
+              type: "application/x-mpegURL",
+            },
+          ],
+        },
+        () => {
+          setIsLoading(false);
+        }
+      );
+
+      player.on("canplay", () => {
         setIsLoading(false);
-      }
-    );
+      });
 
-    player.on("canplay", () => {
-      setIsLoading(false);
-    });
+      player.on("error", () => {
+        setIsLoading(false);
+        setHasError(true);
+        console.error("Video.js error:", player.error());
+      });
 
-    player.on("error", () => {
-      setIsLoading(false);
-      setHasError(true);
-      console.error("Video.js error:", player.error());
-    });
+      // Sifat darajalarini kuzatish (videojs-contrib-quality-levels API orqali)
+      const qualityLevelList = (player as any).qualityLevels();
+      qualityLevelsRef.current = qualityLevelList;
 
-    // Sifat darajalarini kuzatish (videojs-contrib-quality-levels API orqali)
-    const qualityLevelList = (player as any).qualityLevels();
-    qualityLevelsRef.current = qualityLevelList;
+      const updateQualityList = () => {
+        const heights = new Set<number>();
+        for (let i = 0; i < qualityLevelList.length; i++) {
+          heights.add(qualityLevelList[i].height);
+        }
+        setQualities(Array.from(heights).sort((a, b) => b - a));
+      };
 
-    const updateQualityList = () => {
-      const heights = new Set<number>();
-      for (let i = 0; i < qualityLevelList.length; i++) {
-        heights.add(qualityLevelList[i].height);
-      }
-      setQualities(Array.from(heights).sort((a, b) => b - a));
+      qualityLevelList.on("addqualitylevel", updateQualityList);
+      qualityLevelList.on("removequalitylevel", updateQualityList);
+
+      playerRef.current = player;
     };
 
-    qualityLevelList.on("addqualitylevel", updateQualityList);
-    qualityLevelList.on("removequalitylevel", updateQualityList);
-
-    playerRef.current = player;
+    setup();
 
     return () => {
+      disposed = true;
       if (playerRef.current) {
         playerRef.current.dispose();
         playerRef.current = null;
