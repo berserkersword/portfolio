@@ -1,8 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import Lottie from "lottie-react";
-import cameraAnimation from "../../public/camera.json";
+import { useEffect, useState } from "react";
+import dynamic from "next/dynamic";
 import {motion} from "framer-motion";
 import { AnimatedText,Typewriter } from "../../components/animations";
 
@@ -28,6 +27,9 @@ const CHIPS: Record<string, string[]> = {
 };
 
 const SINGLE_SELECT = ["videoType", "duration"];
+
+// lottie-react va 1.5MB JSON JS bundle'ga kirmasin — kerak bo'lganda yuklanadi
+const Lottie = dynamic(() => import("lottie-react"), { ssr: false });
 
 // Bu yerda formaning chiplarini va boshqa kichik komponentlari
 type ChipsState = Record<string, string[]>;
@@ -58,8 +60,6 @@ function ChipGroup({
     </div>
   );
 }
-
-let cardIndex = 0;
 
 function SectionLabel({ children }: { children: React.ReactNode }) {
   return (
@@ -92,6 +92,14 @@ export default function BriefForm() {
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [errorMsg, setErrorMsg] = useState("");
+  const [cameraAnimation, setCameraAnimation] = useState<unknown>(null);
+
+  useEffect(() => {
+    fetch("/camera.json")
+      .then((res) => res.json())
+      .then(setCameraAnimation)
+      .catch(() => {});
+  }, []);
 
   function handleField(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) {
     setFields((f) => ({ ...f, [e.target.name]: e.target.value }));
@@ -209,11 +217,11 @@ export default function BriefForm() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4, ease: "easeOut" }}
           className="w-full h-full lg:w-[420px] lg:shrink-0 bg-neutral-100/10 flex flex-col items-center justify-center px-8 py-10 order-first lg:sticky lg:top-8 lg:self-start lg:rounded-l-3xl sm:none">
-          <Lottie
-          animationData={cameraAnimation}
-          loop={true}
-          className="w-full max-w-sm"
-        />
+          <div className="w-full max-w-sm aspect-square">
+            {cameraAnimation !== null && (
+              <Lottie animationData={cameraAnimation} loop={true} className="w-full h-full" />
+            )}
+          </div>
         <h2 className="text-2xl font-semibold code text-neutral-100 text-center mt-6">
           <Typewriter text={'Ajoyib video \n mukammal brief dan boshlanadi'} />
         </h2>

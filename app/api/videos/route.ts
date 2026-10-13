@@ -1,6 +1,9 @@
 import { imagekit } from "@/lib/imagekit";
 import { NextResponse } from "next/server";
 
+// Busiz route build vaqtida bir marta generatsiya bo'lib, yangi videolar ko'rinmaydi
+export const revalidate = 300;
+
 export interface ApiVideo {
   fileId: string;
   name: string;

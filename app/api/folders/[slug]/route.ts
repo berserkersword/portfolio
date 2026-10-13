@@ -7,8 +7,6 @@ export async function GET(
 ) {
   const { slug } = await params;
 
-  console.log("=== DEBUG: so'ralgan slug ===", slug);
-
   try {
     const files = await imagekit.listFiles({
       path: `/photos/${slug}`,
@@ -17,9 +15,6 @@ export async function GET(
       sort: "ASC_CREATED",
     });
 
-    console.log("=== DEBUG: ImageKit'dan kelgan fayllar soni ===", files.length);
-    console.log("=== DEBUG: birinchi fayl ===", JSON.stringify(files[0], null, 2));
-
     const imageUrls = files
       .filter(
         (f: any) =>
@@ -27,11 +22,12 @@ export async function GET(
       )
       .map((f: any) => f.url);
 
-    console.log("=== DEBUG: filtrlangan rasm URL'lari soni ===", imageUrls.length);
-
-    return NextResponse.json(imageUrls);
+    // CDN'da 5 daqiqa keshlanadi, keyin fonda yangilanadi
+    return NextResponse.json(imageUrls, {
+      headers: { "Cache-Control": "public, s-maxage=300, stale-while-revalidate=86400" },
+    });
   } catch (error) {
-    console.log("=== DEBUG: XATO ===", error);
+    console.error("ImageKit fetch error:", error);
     return NextResponse.json(
       { error: "Rasmlarni olib bo'lmadi" },
       { status: 500 }

@@ -3,7 +3,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import LoaderIcon from "@/components/loaderIcon";
 import type { ApiVideo } from "@/app/api/videos/route";
@@ -159,6 +158,8 @@ function VideoLightbox({
       // va faqat ro'yxatdan o'tmagan bo'lsa yuklanadi. Shu tufayli Next.js
       // build vaqtidagi (SSG/prerender) "already exists" ogohlantirishi chiqmaydi,
       // chunki bu kod hech qachon serverda ishlamaydi.
+      // video.js (~200KB) faqat lightbox ochilganda yuklanadi
+      const { default: videojs } = await import("video.js");
       if (!(videojs as any).getPlugin("qualityLevels")) {
         await import("videojs-contrib-quality-levels");
       }

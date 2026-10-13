@@ -2,7 +2,6 @@
 import {motion} from "framer-motion"
 
 // components
-import Slider from "@/components/slider"
 import { Chroma } from "@/components/chroma"
 import IconsMarquee from "@/components/IconMarquee"
 
@@ -11,49 +10,44 @@ import {AiOutlineInstagram} from "react-icons/ai"
 import { MapPinIcon } from "@heroicons/react/24/outline"
 import {BiLogoTelegram} from "react-icons/bi"
 import VideoCompareSlider from "@/components/VideoCompareSlider"
-import LoaderIcon from "@/components/LoaderIcon"
+
+// Render tashqarisida — har renderda qayta yaratilmaydi
+const marqueeIcons = [
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/adobe-audition.png",
+        alt: "Adobe Audition",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/adobe-after-effects.png",
+        alt: "Adobe After Effects",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/adobe-premiere-pro.png",
+        alt: "Adobe Premiere Pro",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/adobe-lightroom.png",
+        alt: "Adobe Lightroom",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/adobe-photoshop.png",
+        alt: "Adobe Photoshop",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/davinci-resolve.png",
+        alt: "DaVinci Resolve",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/figma.png",
+        alt: "Figma",
+    },
+    {
+        src: "https://img.icons8.com/ios-filled/128/000000/blender-3d.png",
+        alt: "Blender",
+    },
+];
 
 export default function Home(){
-    const marqueeIcons = [
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/adobe-audition.png",
-            alt: "Adobe Audition",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/adobe-after-effects.png",
-            alt: "Adobe After Effects",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/adobe-premiere-pro.png",
-            alt: "Adobe Premiere Pro",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/adobe-lightroom.png",
-            alt: "Adobe Lightroom",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/adobe-photoshop.png",
-            alt: "Adobe Photoshop",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/davinci-resolve.png",
-            alt: "DaVinci Resolve",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/figma.png",
-            alt: "Figma",
-        },
-        {
-            src: "https://img.icons8.com/ios-filled/128/000000/blender-3d.png",
-            alt: "Blender",
-        },
-];
-    const images =[
-        {id: 1, src: '/images/1.png'},
-        {id: 2, src: '/images/2.png'},
-        {id: 3, src: '/images/3.jpg'},
-    ]
-
     return (
         <div className="w-full min-h-[100vh] lg:p-20 md:p-5">
 
@@ -103,7 +97,7 @@ export default function Home(){
             {/* slider content */}
             <div className="max-h-[100vh] md:my-20 my-40">
                 {/* <Slider images={images} /> */}
-                <VideoCompareSlider beforeSrc="before.mp4" afterSrc="after.mp4" loader={<LoaderIcon />} />
+                <VideoCompareSlider beforeSrc="before.mp4" afterSrc="after.mp4"/>
             </div>
 
 

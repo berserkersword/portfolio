@@ -1,7 +1,8 @@
 import { imagekit } from "@/lib/imagekit";
 import { NextResponse } from "next/server";
 
-export const dynamic = "force-dynamic";
+// ImageKit'ga har so'rovda N+1 chaqiruv qilmaslik uchun 5 daqiqa kesh (ISR)
+export const revalidate = 300;
 
 export interface ApiPhotoFolder {
   slug: string;

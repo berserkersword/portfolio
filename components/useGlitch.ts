@@ -3,16 +3,20 @@ import { useEffect, useRef, useCallback } from "react";
 // Overlay singleton — barcha hook instancelar bitta overlayni ishlatadi
 let globalOverlay: HTMLDivElement | null = null;
 let glitching = false;
+let runId = 0; // yangi glitch boshlansa, eski tick loop to'xtaydi
 
 function randInt(a: number, b: number) {
   return Math.floor(Math.random() * (b - a)) + a;
 }
 
 function runGlitch(intensity: "idle" | "transition", onDone?: () => void) {
+  if (!globalOverlay) {
+    onDone?.();
+    return;
+  }
   if (glitching && intensity === "idle") return;
   glitching = true;
-
-  if (!globalOverlay) return;
+  const id = ++runId;
   const overlay = globalOverlay;
 
   const cfg =
@@ -39,6 +43,7 @@ function runGlitch(intensity: "idle" | "transition", onDone?: () => void) {
   }
 
   function tick() {
+    if (id !== runId) return;
     if (frame >= cfg.maxFrames) {
       overlay.innerHTML = "";
       glitching = false;
@@ -118,10 +123,10 @@ export function useGlitch() {
     const timer = setInterval(() => runGlitch("idle"), 5000);
     const first = setTimeout(() => runGlitch("idle"), 1500);
 
-    // return () => {
-    //   clearInterval(timer);
-    //   clearTimeout(first);
-    // };
+    return () => {
+      clearInterval(timer);
+      clearTimeout(first);
+    };
   }, []);
 }
 

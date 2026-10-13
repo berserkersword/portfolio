@@ -1,4 +1,5 @@
 // components/Footer.tsx
+"use client"
 import Link from "next/link"
 import { EnvelopeIcon } from "@heroicons/react/24/outline"
 import {useState} from "react"

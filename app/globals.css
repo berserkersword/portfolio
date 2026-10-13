@@ -3,8 +3,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap');
 
 /* Animated gradient mesh background */
 body {
@@ -106,10 +104,10 @@ body {
 
 /*  code font */
 .code {
-  font-family: "Source Code Pro", monospace;
+  font-family: var(--font-code), monospace;
 }
 .minicode{
-  font-family: "Fira Code", monospace;
+  font-family: var(--font-minicode), monospace;
 }
 
 
