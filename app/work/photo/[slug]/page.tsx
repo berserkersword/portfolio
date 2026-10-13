@@ -9,6 +9,9 @@ export default function PhotoFolderPage() {
   const params = useParams<{ slug: string }>();
   const router = useRouter();
 
+  // Ekranda ko'rsatish uchun: "-pin" qo'shimchasi olib tashlanadi
+  const displayName = decodeURIComponent(params.slug).replace(/-pin$/i, "");
+
   const [images, setImages] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -92,7 +95,7 @@ export default function PhotoFolderPage() {
           ← Work
         </button>
         <h1 className="text-sm tracking-[0.2em] uppercase text-white">
-          {params.slug}
+          {displayName}
         </h1>
         <span className="text-xs tracking-wide text-white/40">
           {images.length} photo
@@ -108,7 +111,7 @@ export default function PhotoFolderPage() {
           >
             <Image
               src={src}
-              alt={`${params.slug} ${i + 1}`}
+              alt={`${displayName} ${i + 1}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               className="object-cover transition-transform duration-300 group-hover:scale-105"
@@ -154,7 +157,7 @@ export default function PhotoFolderPage() {
             <div className="relative w-full h-full max-w-5xl">
               <Image
                 src={images[activeIndex]}
-                alt={`${params.slug} ${activeIndex + 1}`}
+                alt={`${displayName} ${activeIndex + 1}`}
                 fill
                 sizes="100vw"
                 className="object-contain"
